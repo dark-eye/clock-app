@@ -24,6 +24,7 @@ ListView {
     id: lapListView
 
     clip: true
+    pressDelay:66
 
     StopwatchFormatTime {
         id: stopwatchFormatTime
