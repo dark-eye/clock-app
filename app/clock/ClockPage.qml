@@ -286,15 +286,19 @@ Item {
             left: parent.left
             right: parent.right
         }
+        Loader {
+            id: worldCityListLoader
+            anchors.fill:parent
+            asynchronous: true
+            onLoaded: {
+               item.footer =  Qt.createComponent("../worldclock/AddWorldCityButton.qml")
+               item.footer.objectName = "addWorldCityButton"
 
-        UserWorldCityList {
-            id: worldCityColumn
-            opacity: date.opacity
-
-            footer: AddWorldCityButton {
-                id: addWorldCityButton
-                objectName: "addWorldCityButton"
             }
+            opacity: date.opacity
+            Component.onCompleted: setSource("../worldclock/UserWorldCityList.qml", {
+                                                 "objectName": "worldCityColumn"
+                                             })
         }
     }
 
