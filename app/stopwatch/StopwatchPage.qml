@@ -148,6 +148,7 @@ Item {
             id: lapListViewLoader
             anchors.fill: parent
             sourceComponent: !stopwatchEngine.running && stopwatchEngine.totalTimeOfStopwatch === 0 ? undefined : lapListViewComponent
+            asynchronous: true
         }
     }
 

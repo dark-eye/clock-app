@@ -141,6 +141,7 @@ Page {
 
     Loader {
         id: emptyStateLoader
+        asynchronous: true
         anchors {
             top: alarmPage.header.bottom
             topMargin: units.gu(5)
