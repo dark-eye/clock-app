@@ -275,31 +275,33 @@ Item {
         }
     }
 
-    MouseArea {
-        id: worldCityListMouseArea
 
-        preventStealing: true
-
-        anchors {
-            top: divider.bottom
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
         Loader {
             id: worldCityListLoader
-            anchors.fill:parent
+            anchors {
+		    top: divider.bottom
+		    bottom: parent.bottom
+		    left: parent.left
+		    right: parent.right
+		}
             asynchronous: true
             onLoaded: {
                item.footer =  Qt.createComponent("../worldclock/AddWorldCityButton.qml")
                item.footer.objectName = "addWorldCityButton"
-
+		worldCityHack.nestedListView = worldCityListLoader.item
             }
             opacity: date.opacity
             Component.onCompleted: setSource("../worldclock/UserWorldCityList.qml", {
                                                  "objectName": "worldCityColumn"
                                              })
+            }
         }
+
+    NestedListviewsHack {
+        id:worldCityHack
+        z:10
+        parentListView : listview
+        nestedListView : worldCityListLoader
     }
 
     ParallelAnimation {
