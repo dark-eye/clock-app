@@ -276,32 +276,32 @@ Item {
     }
 
 
-        Loader {
-            id: worldCityListLoader
-            anchors {
-		    top: divider.bottom
-		    bottom: parent.bottom
-		    left: parent.left
-		    right: parent.right
-		}
-            asynchronous: true
-            onLoaded: {
-               item.footer =  Qt.createComponent("../worldclock/AddWorldCityButton.qml")
-               item.footer.objectName = "addWorldCityButton"
-		worldCityHack.nestedListView = worldCityListLoader.item
-            }
-            opacity: date.opacity
-            Component.onCompleted: setSource("../worldclock/UserWorldCityList.qml", {
-                                                 "objectName": "worldCityColumn"
-                                             })
+    Loader {
+        id: worldCityListLoader
+        anchors {
+            top: divider.bottom
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+        asynchronous: true
+        onLoaded: {
+           item.footer =  Qt.createComponent("../worldclock/AddWorldCityButton.qml")
+           item.footer.objectName = "addWorldCityButton"
+            var worldCityHack = Qt.createComponent("../components/NestedListviewsHack.qml");
+            if (worldCityHack.status === Component.Ready) {
+                worldCityHack.createObject(_clockPage,{
+                                      "z":10,
+                                      "parentListView" : listview,
+                                      "nestedListView" : worldCityListLoader.item,
+                                      "verticalPosAdjustment" : -units.gu(12)
+                                  });
             }
         }
-
-    NestedListviewsHack {
-        id:worldCityHack
-        z:10
-        parentListView : listview
-        nestedListView : worldCityListLoader
+        opacity: date.opacity
+        Component.onCompleted: setSource("../worldclock/UserWorldCityList.qml", {
+                                             "objectName": "worldCityColumn"
+                                         })
     }
 
     ParallelAnimation {

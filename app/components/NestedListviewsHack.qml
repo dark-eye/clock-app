@@ -12,10 +12,15 @@ Item {
     property ListView nestedListView : null
     property ListView parentListView : null
 
+    // This property is used to add or substract positioning values if position mapping of the nested list
+    // isn't aligned to the parent list
+    property int verticalPosAdjustment : 0
+
+
     MouseArea {
         z:10
         id:aboveNestedList
-        height:nestedListView.y
+        height:nestedListView.mapToItem(parentListView,nestedListView.y,0).y + verticalPosAdjustment
         anchors {
             top: parent.top
             left:parent.left
