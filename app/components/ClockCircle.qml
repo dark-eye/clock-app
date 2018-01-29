@@ -28,11 +28,12 @@ Circle {
     id: _innerCircle
 
     property bool isFoldVisible: true
+    property bool useNightColors: false
 
-    color: UbuntuColors.porcelain
+    color: useNightColors ? nightColors.color : dayColors.color;
     borderWidth: units.dp(1)
-    borderColorTop: "#00000000"
-    borderColorBottom: "#6E6E6E"
+    borderColorTop: useNightColors ? nightColors.borderColorTop : dayColors.borderColorTop;
+    borderColorBottom: useNightColors ? nightColors.borderColorBottom : dayColors.borderColorBottom;
     borderOpacity: 0.65
     borderGradientPosition: 0.2
 
@@ -42,10 +43,26 @@ Circle {
         anchors.margins: borderWidth
         radius: height / 2
         gradient: Gradient {
-            GradientStop { position: 0.0; color: UbuntuColors.porcelain }
-            GradientStop { position: 0.5; color: UbuntuColors.porcelain }
-            GradientStop { position: 0.5; color: "#FDFDFD" }
-            GradientStop { position: 1.0; color: "#FDFDFD" }
+            GradientStop { position: 0.0; color: useNightColors ? nightColors.color : dayColors.color; }
+            GradientStop { position: 0.5; color: useNightColors ? nightColors.color : dayColors.color; }
+            GradientStop { position: 0.5; color: useNightColors ? nightColors.foldColor : dayColors.foldColor; }
+            GradientStop { position: 1.0; color:  useNightColors ? nightColors.foldColor : dayColors.foldColor; }
         }
+    }
+
+    QtObject {
+        id:nightColors
+        property var color:UbuntuColors.ash
+        property var borderColorTop:"#00000000"
+        property var  borderColorBottom: "#6E6E6E"
+        property var  foldColor: "#FDFDFD"
+    }
+
+    QtObject {
+        id:dayColors
+        property var color:UbuntuColors.porcelain
+        property var borderColorTop:"#00000000"
+        property var  borderColorBottom: "#6E6E6E"
+        property var  foldColor: "#FDFDFD"
     }
 }

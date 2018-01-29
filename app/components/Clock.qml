@@ -65,6 +65,8 @@ Item {
     property alias digitalModeLoader: _digitalModeLoader
     property alias analogModeLoader: _analogModeLoader
 
+    property bool nightDayTheme: false
+
     // Signal which is triggered whenever the flip animation is started
     signal triggerFlip();
 
@@ -169,7 +171,8 @@ Item {
                              "shadowWidth": innerCircleWidth,
                              "shadowTimeFontSize": fontSize,
                              "shadowPeriodFontSize": periodFontSize,
-                             "showSeconds": isMainClock
+                             "showSeconds": isMainClock,
+                             "useNightColors": _internal.useNightTheme()
                          })
 
                 digitalShadow.setSource
@@ -178,7 +181,8 @@ Item {
                              "shadowWidth": innerCircleWidth,
                              "shadowTimeFontSize": fontSize,
                              "shadowPeriodFontSize": periodFontSize,
-                             "showSeconds": isMainClock
+                             "showSeconds": isMainClock,
+                             "useNightColors": _internal.useNightTheme()
                          })
 
                 if (clockModeFlipable.isDigital) {
@@ -226,7 +230,8 @@ Item {
                              {
                                  "width": innerCircleWidth,
                                  "timeFontSize": fontSize,
-                                 "timePeriodFontSize": periodFontSize
+                                 "timePeriodFontSize": periodFontSize,
+                                 "useNightColors": _internal.useNightTheme()
                              })
                     _analogModeLoader.source = ""
                 }
@@ -235,7 +240,8 @@ Item {
                             ("AnalogMode.qml",
                              {
                                  "width": innerCircleWidth,
-                                 "showSeconds": isMainClock
+                                 "showSeconds": isMainClock,
+                                 "useNightColors": _internal.useNightTheme()
                              })
                     _digitalModeLoader.source = ""
                 }
@@ -249,6 +255,21 @@ Item {
                     clockModeDocument.contents = isDigitalSetting
                 }
             }
+        }
+    }
+
+    QtObject {
+        id:_internal
+
+        function isLocleTimeNight() {
+            var militaryTime = parseInt(localizedTimeString.replace(":","").replace(/(AM|PM)/,""));
+            //HACK : for now this is hard coded to be between 7:00 - 19:00 as day time and night time the rest of that timerPageLoader
+            //       until  will find some online service that can do this reliably.
+            return militaryTime < 700 ||  1900 < militaryTime ;
+        }
+
+        function useNightTheme() {
+            return nightDayTheme && _internal.isLocleTimeNight()
         }
     }
 }

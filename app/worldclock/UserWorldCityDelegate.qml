@@ -82,6 +82,7 @@ ListItem {
 
             notLocalizedDateTimeString: model.notLocalizedZoneTime
             localizedTimeString: model.localizedZoneTime
+            nightDayTheme: true
 
             anchors.centerIn: parent
 

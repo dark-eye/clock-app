@@ -33,6 +33,8 @@ Flipable {
     // Property to switch between digital and analog mode
     property bool isAnalog: false
 
+    property bool useNightColors: false
+
     width: shadowWidth
     height: width/2
     clip: true
@@ -43,6 +45,7 @@ Flipable {
         width: shadowWidth
         timeFontSize: shadowTimeFontSize
         timePeriodFontSize: shadowPeriodFontSize
+        useNightColors: digitalShadow.useNightColors
 
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
@@ -54,6 +57,7 @@ Flipable {
         width: shadowWidth
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
+        useNightColors: digitalShadow.useNightColors
     }
 
     transform: Rotation {
