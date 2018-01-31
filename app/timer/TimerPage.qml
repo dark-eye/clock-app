@@ -161,7 +161,7 @@ Item {
                 id:timerNameField
                 width: buttonRow.width / 2 - units.gu(1)
                 placeholderText: i18n.tr("Enter timer name")
-                onAccepted: saveTimerRow.saveTimer();
+                onAccepted: if(timerNameField.displayText) { saveTimerRow.saveTimer(); }
                 maximumLength: 25
             }
 
