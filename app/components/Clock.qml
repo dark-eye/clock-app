@@ -74,6 +74,32 @@ Item {
         clockFlipAnimation.start()
     }
 
+    function loadClockFace(options) {
+        var opts = options ? options : {width:innerCircleWidth};
+        function mergeObjects(obj1,obj2) {
+            for(var i in obj2) {
+                obj1[i] = obj2[i];
+            }
+            return obj1;
+        }
+        if (isDigital) {
+            _digitalModeLoader.setSource
+                    ("DigitalMode.qml",
+                    mergeObjects({
+                         "timeFontSize": fontSize,
+                         "timePeriodFontSize": periodFontSize,
+                         "useNightColors": _internal.useNightTheme()
+                     },opts))
+        } else {
+            _analogModeLoader.setSource
+                    ("AnalogMode.qml",
+                     mergeObjects({
+                         "showSeconds": isMainClock,
+                         "useNightColors": _internal.useNightTheme()
+                     },opts))
+        }
+    }
+
     Shadow {
         id: upperShadow
         rotation: 0
@@ -224,29 +250,14 @@ Item {
                 upperShadow.opacity = bottomShadow.opacity = 0
                 isDigital = !isDigital
 
-                if (isDigital) {
-                    _digitalModeLoader.setSource
-                            ("DigitalMode.qml",
-                             {
-                                 "width": innerCircleWidth,
-                                 "timeFontSize": fontSize,
-                                 "timePeriodFontSize": periodFontSize,
-                                 "useNightColors": _internal.useNightTheme()
-                             })
-                    _analogModeLoader.source = ""
-                }
-                else {
-                    _analogModeLoader.setSource
-                            ("AnalogMode.qml",
-                             {
-                                 "width": innerCircleWidth,
-                                 "showSeconds": isMainClock,
-                                 "useNightColors": _internal.useNightTheme()
-                             })
-                    _digitalModeLoader.source = ""
-                }
+                _clockContainer.loadClockFace();
 
                 analogShadow.source = digitalShadow.source = ""
+                if (isDigital) {
+                    _analogModeLoader.source = ""
+                } else {
+                      _digitalModeLoader.source = ""
+                }
 
                 if(isMainClock) {
                     var isDigitalSetting = JSON.parse
@@ -271,5 +282,6 @@ Item {
         function useNightTheme() {
             return nightDayTheme && _internal.isLocleTimeNight()
         }
+
     }
 }

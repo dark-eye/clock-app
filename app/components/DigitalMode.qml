@@ -50,7 +50,7 @@ ClockCircle {
         anchors.horizontalCenter: parent.horizontalCenter
         width:Math.min(parent.width,parent.height)-units.dp(4)
 
-        color: UbuntuColors.slate
+        color: colorTheme.textColor
         font.pixelSize: maxTimeFontSize
         minimumPixelSize: 6
         fontSizeMode: Text.Fit

@@ -83,7 +83,7 @@ Flipable {
         UbuntuNumberAnimation {
             target: rotation
             property: "angle"
-            duration: 333
+            duration: UbuntuAnimation.BriskDuration
         }
     }
 }

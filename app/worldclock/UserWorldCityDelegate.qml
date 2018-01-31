@@ -95,23 +95,7 @@ ListItem {
 
             Component.onCompleted: {
                 isDigital = clockModeDocument.contents.digitalMode ? true : false
-                if (clockModeDocument.contents.digitalMode) {
-                    digitalModeLoader.setSource
-                            ("../components/DigitalMode.qml",
-                             {
-                                 "width": innerCircleWidth,
-                                 "timeFontSize": fontSize,
-                                 "timePeriodFontSize": periodFontSize
-                             })
-                }
-                else {
-                    analogModeLoader.setSource(
-                                "../components/AnalogMode.qml",
-                                {
-                                    "width": innerCircleWidth,
-                                    "showSeconds": isMainClock
-                                })
-                }
+                loadClockFace({width:innerCircleWidth});
             }
         }
 

@@ -53,23 +53,7 @@ Clock {
 
         ScriptAction {
             script: {
-                if (isDigital) {
-                    digitalModeLoader.setSource
-                            ("../components/DigitalMode.qml",
-                             {
-                                 "maxWidth": innerCircleWidth,
-                                 "maxTimeFontSize": fontSize,
-                                 "maxPeriodFontSize": periodFontSize
-                             })
-                }
-                else {
-                    analogModeLoader.setSource
-                            ("../components/AnalogMode.qml",
-                             {
-                                 "maxWidth": innerCircleWidth,
-                                 "showSeconds": isMainClock
-                             })
-                }
+                loadClockFace({maxWidth:innerCircleWidth, maxTimeFontSize: fontSize});
             }
         }
 
