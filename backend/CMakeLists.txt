@@ -32,12 +32,6 @@ set(
     modules/Stopwatch/formattime.cpp
 )
 
-set(
-    timer_SRCS
-    modules/Timer/backend.cpp
-    modules/Timer/timerengine.cpp
-)
-
 add_library(alarm MODULE
     ${alarm_SRCS}
 )
@@ -48,10 +42,6 @@ add_library(worldclock MODULE
 
 add_library(stopwatch MODULE
     ${stopwatch_SRCS}
-)
-
-add_library(timer MODULE
-    ${timer_SRCS}
 )
 
 set_target_properties(alarm PROPERTIES
@@ -67,14 +57,10 @@ set_target_properties(stopwatch PROPERTIES
 )
 
 
-set_target_properties(timer PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY Timer/
-)
 
 qt5_use_modules(alarm Gui Qml Quick DBus)
 qt5_use_modules(worldclock Gui Qml Quick)
 qt5_use_modules(stopwatch Qml)
-qt5_use_modules(timer Qml)
 
 # Copy qmldir file to build dir for running in QtCreator
 add_custom_target(alarm-qmldir ALL
@@ -92,11 +78,6 @@ add_custom_target(stopwatch-qmldir ALL
     DEPENDS ${QMLFILES}
 )
 
-add_custom_target(timer-qmldir ALL
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/modules/Timer/qmldir ${CMAKE_CURRENT_BINARY_DIR}/Timer
-    DEPENDS ${QMLFILES}
-)
-
 # Install plugin file
 install(TARGETS alarm DESTINATION ${MODULE_PATH}/Alarm/)
 install(FILES   modules/Alarm/qmldir DESTINATION ${MODULE_PATH}/Alarm/)
@@ -107,5 +88,3 @@ install(FILES   modules/WorldClock/qmldir DESTINATION ${MODULE_PATH}/WorldClock/
 install(TARGETS stopwatch DESTINATION ${MODULE_PATH}/Stopwatch/)
 install(FILES   modules/Stopwatch/qmldir DESTINATION ${MODULE_PATH}/Stopwatch/)
 
-install(TARGETS timer DESTINATION ${MODULE_PATH}/Timer/)
-install(FILES   modules/Timer/qmldir DESTINATION ${MODULE_PATH}/Timer/)

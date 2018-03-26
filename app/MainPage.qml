@@ -49,6 +49,20 @@ Page {
     // Clock App Alarm Model Reference Variable
     property var alarmModel
 
+    visible: false
+
+    Component.onCompleted: {
+        clockPage.runStartupAnimation();
+        visible:true
+    }
+
+    Connections {
+        target:alarmModel
+        onIsReadyChanged: if(isColdStart && alarmModel !== null ) {
+              isColdStart = false
+          }
+    }
+
     Timer {
         id: hideBottomEdgeHintTimer
         interval: 3000
@@ -96,9 +110,6 @@ Page {
                                                                      "localizedClockDateString": _mainPage.localizedDateString,
                                                                      "width": clockApp.width,
                                                                      "height": listview.height});
-                timerPageLoader.setSource("timer/TimerPage.qml" ,{
-                                                                 "width": clockApp.width,
-                                                                 "height": listview.height });
             }
 
         }
@@ -112,6 +123,9 @@ Page {
                 if (this.item.isRunning) {
                     listview.moveToStopwatchPage()
                 }
+                timerPageLoader.setSource("timer/TimerPage.qml" ,{
+                                                                 "width": clockApp.width,
+                                                                 "height": listview.height });
             }
         }
 

@@ -35,7 +35,7 @@ Clock {
     isDigital: clockModeDocument.contents.digitalMode ? true : false
     height: width
 
-    Component.onCompleted: {
+    function startOpenAnimation() {
         clockOpenAnimation.start()
     }
 
@@ -62,7 +62,7 @@ Clock {
                 target: mainClock
                 property: "width"
                 to: units.gu(24)
-                duration: 900
+                duration: UbuntuAnimation.SlowDuration
             }
 
             ScriptAction {
@@ -75,26 +75,6 @@ Clock {
                     }
                 }
             }
-        }
-    }
-
-    /*
-     Only when the startup animation is complete, proceed to load the
-     alarm model
-    */
-    Connections {
-        target: digitalModeLoader.item
-        onAnimationComplete: {
-            alarmModelLoader.source = Qt.resolvedUrl("../alarm/AlarmModelComponent.qml")
-            isColdStart = false
-        }
-    }
-
-    Connections {
-        target: analogModeLoader.item
-        onAnimationComplete: {
-            alarmModelLoader.source = Qt.resolvedUrl("../alarm/AlarmModelComponent.qml")
-            isColdStart = false
         }
     }
 }

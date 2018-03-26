@@ -47,7 +47,7 @@ Window {
          Reload the alarm model when the clock app gains focus to refresh
          the alarm page UI in the case of alarm notifications.
         */
-        if(applicationState && !mainPage.isColdStart && (mainStack.currentPage.isMainPage
+        if(applicationState && !mainPageLoader.item.isColdStart && (mainStack.currentPage.isMainPage
                                                          || mainStack.currentPage.isAlarmPage)) {
             console.log("[LOG]: Alarm Database unloaded")
             alarmModelLoader.source = ""
@@ -73,6 +73,7 @@ Window {
         Settings {
             id:clockAppSettings
             property string theme: ""
+            property bool dayNightVisual: false
 
             function updateTheme() {
                 if( typeof(clockAppSettings.theme) == 'string') {
@@ -118,20 +119,25 @@ Window {
             Component.onCompleted: createCustomAlarmSoundDirectory()
         }
 
-        PageStack {
-            id: mainStack
+        Loader {
+            id: alarmModelLoader
+            source:Qt.resolvedUrl("alarm/AlarmModelComponent.qml")
+            onLoaded: mainPageLoader.active = true;
+        }
 
-            Component.onCompleted: push(mainPage)
+        Loader {
+            id:mainPageLoader
+            active: false
+            sourceComponent: mainPageComponent
+            onLoaded:  mainStack.push(item)
+        }
 
+        Component {
+            id:mainPageComponent
             MainPage {
                 id: mainPage
 
                 readonly property bool isMainPage: true
-
-                Loader {
-                    id: alarmModelLoader
-                    asynchronous: false
-                }
 
                 alarmModel: alarmModelLoader.item
                 /*
@@ -143,6 +149,10 @@ Window {
                 localizedTimeString: localTimeSource.localizedCurrentTimeString
                 localizedDateString: localTimeSource.localizedCurrentDateString
             }
+        }
+
+        PageStack {
+            id: mainStack
         }
     }
 }

@@ -42,24 +42,37 @@ Item {
         query: ["*"]
     }
 
+    WorkerScript {
+           id: timersWorker
+           source: "active_timers_worker.js"
+           onMessage:{
+               switch(messageObject.reply.action ) {
+                 case  "removeAllAlarms":
+                        for( var i in messageObject.reply.alarms ) {
+                           messageObject.reply.alarms[i].cancel();
+                        }
+                    break;
+               }
+           }
+       }
+
     /**
      * Remove all the alarms from the alarms model that were saved in the DB as timers.
      */
     function removeAllTimerAlarms() {
        if(!alarmModel ) { return ; }
+
        var alarms = [];
+       var timers = [];
        for(var i=0; i < alarmModel.count; i++) {
            alarms.push(alarmModel.get(i))
        }
-       //Remove all active timers that were saved in the DB and exist in the alarm model.
-       for(var i=0; i < alarms.length; i++) {
-           var timerEntry = _activeTimers.findTimerAlarmByMessage(alarms[i].message);
-           if(timerEntry) {
-               alarms[i].cancel()
-               clockDB.deleteDoc(dbActiveTimers.documents[i]);
-               i--;
-           }
+       for(var j in dbActiveTimers.documents) {
+          timers = dbActiveTimers.documents[j];
        }
+        //Remove all active timers that were saved in the DB and exist in the alarm model.
+        timersWorker.sendMessage({"function":"getAllAlarmTimers","data":{"alarmModel": alarms, "dbActiveTimers":timers,"action":"removeAllAlarms"}});
+
        //Remove all active timers that for somereason were left in the DB.
        for(var j in dbActiveTimers.documents) {
            clockDB.deleteDoc(dbActiveTimers.documents[j]);

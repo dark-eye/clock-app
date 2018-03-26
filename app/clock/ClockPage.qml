@@ -60,7 +60,7 @@ Item {
 
     Component.onCompleted: {
         console.log("[LOG]: Clock Page loaded")
-        otherElementsStartUpAnimation.start()
+        //otherElementsStartUpAnimation.start()
     }
 
     // FIXME: workaround necessary because PositionSource blocks for over 1000ms
@@ -301,42 +301,59 @@ Item {
         nestedListView : worldCityColumn
     }
 
-
-    ParallelAnimation {
-        id: otherElementsStartUpAnimation
+    SequentialAnimation {
+        id: clockPageOpenAnimation
 
         onStopped:startupAnimationEnd();
 
-        UbuntuNumberAnimation {
-            target: bottomRow
-            property: "anchors.topMargin"
-            from: units.gu(4)
-            to: 0
+        ScriptAction {
+            script: {
+                clock.startOpenAnimation();
+            }
+        }
+
+        PauseAnimation {
             duration: UbuntuAnimation.SlowDuration
         }
 
-        UbuntuNumberAnimation {
-            target: bottomRow
-            property: "opacity"
-            from: 0
-            to: 1
-            duration: UbuntuAnimation.SlowDuration
-        }
+        ParallelAnimation {
+            id: otherElementsStartUpAnimation
 
-        UbuntuNumberAnimation {
-            target: date
-            property: "opacity"
-            from: 0
-            to: 1
-            duration: UbuntuAnimation.SlowDuration
-        }
+            UbuntuNumberAnimation {
+                target: bottomRow
+                property: "anchors.topMargin"
+                from: units.gu(4)
+                to: 0
+                duration: UbuntuAnimation.SlowDuration
+            }
 
-        UbuntuNumberAnimation {
-            target: date
-            property: "anchors.topMargin"
-            from: units.gu(29)
-            to: units.gu(4)
-            duration: UbuntuAnimation.SlowDuration
+            UbuntuNumberAnimation {
+                target: bottomRow
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: UbuntuAnimation.SlowDuration
+            }
+
+            UbuntuNumberAnimation {
+                target: date
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: UbuntuAnimation.SlowDuration
+            }
+
+            UbuntuNumberAnimation {
+                target: date
+                property: "anchors.topMargin"
+                from: units.gu(29)
+                to: units.gu(4)
+                duration: UbuntuAnimation.SlowDuration
+            }
         }
+    }
+
+    function runStartupAnimation() {
+        clockPageOpenAnimation.start();
     }
 }
