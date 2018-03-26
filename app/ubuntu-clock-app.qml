@@ -73,6 +73,7 @@ Window {
         Settings {
             id:clockAppSettings
             property string theme: ""
+            property bool dayNightVisual: false
 
             function updateTheme() {
                 if( typeof(clockAppSettings.theme) == 'string') {
