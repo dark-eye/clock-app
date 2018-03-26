@@ -5,7 +5,7 @@ Page {
 
     header: PageHeader {
         id:infoHeader
-        title: i18n.tr("App Information")
+        title: i18n.tr("About")
 
     }
 

@@ -53,7 +53,7 @@ Circle {
 
     QtObject {
         id:nightColors
-        property var color:UbuntuColors.slate
+        property var color:UbuntuColors.ash
         property var borderColorTop:"#00000000"
         property var  borderColorBottom: UbuntuColors.jet
         property var  foldColor: UbuntuColors.inkstone

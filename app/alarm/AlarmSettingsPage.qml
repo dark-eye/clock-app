@@ -282,6 +282,32 @@ Page {
                     }
                 }
             }
+
+            VisualItemModel {
+                id:advancedSettingsModel
+                ListItem {
+                   width: settingsPlugin.width
+                   height: units.gu(6)
+                    ListItemLayout {
+                        title.text :i18n.tr("Day/Night in world clocks")
+
+                        Switch {
+                            checked: clockAppSettings.dayNightVisual
+                            SlotsLayout.position: SlotsLayout.Trailing
+                            onCheckedChanged: {
+                                clockAppSettings.dayNightVisual = checked;
+                            }
+                        }
+                    }
+                }
+            }
+            ExpandableListItem {
+                listViewHeight: units.gu(6)
+                id:advancedSettings
+                titleText.text:i18n.tr("Advanced Settings")
+                subText.textSize: Label.Medium
+                model:advancedSettingsModel
+            }
         }
     }
 }

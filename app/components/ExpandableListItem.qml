@@ -29,7 +29,7 @@ ListItem {
     id: expandableListItem
 
     // Public APIs
-    property ListModel model
+    property var model
     property Component delegate
     property alias titleText: expandableHeader.title
     property alias subText: expandableHeader.subtitle

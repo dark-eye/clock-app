@@ -275,7 +275,7 @@ Item {
         function isLocleTimeNight() {
             var militaryTime = parseInt(localizedTimeString.replace(":","").replace(/(AM|PM)/,""));
             //HACK : for now this is hard coded to be between 7:00 - 19:00 as day time and night time the rest of that timerPageLoader
-            //       until  will find some online service that can do this reliably.
+            //       until we'll find some online service that can do this relaiblly.
             return militaryTime < 700 ||  1900 < militaryTime ;
         }
 
@@ -284,4 +284,7 @@ Item {
         }
 
     }
+
+    onNightDayThemeChanged: _clockContainer.loadClockFace();
+
 }
