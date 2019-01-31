@@ -111,13 +111,18 @@ ListItem {
                 anchors.verticalCenter: parent.verticalCenter
                 onCheckedChanged: {
                     if (checked !== model.enabled) {
+
+                        // HACK : This a temporary fix for the issues of https://gitlab.com/ubports/apps/clock-app/issues/129 (so people will stop waking up at 4:00AM, that too damn early...)
+                        var date = new Date(model.date.getTime() + (model.date.getTime() % 60 ? -1000 : 1000));
+
                         /*
                          Calculate the alarm time if it is a one-time alarm.
                          Repeating alarms do this automatically.
                         */
                         if(type === Alarm.OneTime) {
-                            var date = new Date()
-                            date.setHours(model.date.getHours(), model.date.getMinutes(), 0)
+                            // TODO : this  was commented out to support an HACK that *temporarly* fix the issue of : https://gitlab.com/ubports/apps/clock-app/issues/129
+                            //var date = new Date()
+                            //date.setHours(model.date.getHours(), model.date.getMinutes(), 0)
 
                             model.daysOfWeek = Alarm.AutoDetect
                             if (date < new Date()) {
@@ -128,6 +133,9 @@ ListItem {
                             model.date = date
 
                         }
+                        // HACK part  of the issue 129 hack date should not normally be updated when enabling the alarm
+                        model.date = date
+
                         model.enabled = checked
                         model.save()
 
